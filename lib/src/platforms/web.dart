@@ -87,11 +87,11 @@ class _WebMachineIO implements PlatformIO {
   }
 }
 
-Future initialize(Map args) => TimeMachine.initialize();
+Future initialize(Map args) => TimeMachine.initialize(args);
 
 class TimeMachine {
   // I'm looking to basically use @internal for protection??? <-- what did I mean by this?
-  static Future initialize() async {
+  static Future initialize(Map args) async {
     Platform.startWeb();
 
     // Map IO functions
@@ -102,6 +102,8 @@ class TimeMachine {
     IDateTimeZoneProviders.defaultProvider = tzdb;
 
     _readIntlObject();
+    _timeZoneId = args['timeZone'] ?? _timeZoneId;
+    _locale = args['culture'] ?? _locale;
 
     // Default TimeZone
     var local = await tzdb[_timeZoneId];
